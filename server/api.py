@@ -27,7 +27,10 @@ def do_proxy(request: RequestModel, authorization: Optional[str] = Header(None))
     if (authorization == None):
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
-    openai.api_key = authorization.replace("Bearer", "").strip()
-    completion = openai.ChatCompletion.create()
-    return completion
+    try:
+        openai.api_key = authorization.replace("Bearer", "").strip()
+        completion = openai.ChatCompletion.create(request)
+        return completion
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=e)
     
