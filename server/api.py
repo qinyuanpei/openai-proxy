@@ -32,5 +32,5 @@ def do_proxy(request: RequestModel, authorization: Optional[str] = Header(None))
         completion = openai.ChatCompletion.create(request)
         return completion
     except Exception as e:
-        raise HTTPException(status_code=500, detail=e)
+        raise HTTPException(status_code=500, detail="")
     
