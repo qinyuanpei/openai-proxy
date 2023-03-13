@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Header, HTTPException
 from typing import List, Optional
 from pydantic import BaseModel
+from datetime import datetime
 import openai
 
 class MessageModel(BaseModel):
@@ -19,7 +20,7 @@ app = FastAPI()
 
 @app.get("/")
 def do_echo():
-    return {"message": "This is a greet from FastAPI."}
+    return {"message": "This is a greet from FastAPI.", "timestamp": datetime.datetime.now()}
 
 @app.post("/openai/v1/completions")
 def do_proxy(request: RequestModel, authorization: Optional[str] = Header(None)):
