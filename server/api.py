@@ -17,6 +17,10 @@ class RequestModel(BaseModel):
 
 app = FastAPI()
 
+@app.get("/")
+def do_echo():
+    return {"message": "This is a greet from FastAPI."}
+
 @app.post("/openai/v1/completions")
 def do_proxy(request: RequestModel, authorization: Optional[str] = Header(None)):
     if (authorization == None):
