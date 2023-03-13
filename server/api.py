@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Header, HTTPException, status
 from fastapi.responses import JSONResponse, Response  
+from fastapi.encoders import jsonable_encoder
 from typing import List, Optional, Union
 from pydantic import BaseModel
 from datetime import datetime
@@ -35,6 +36,7 @@ def do_proxy(request: RequestModel, authorization: Optional[str] = Header(None))
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
     try:
+        request = jsonable_encoder(request)
         openai.api_key = authorization.replace("Bearer", "").strip()
         completion = openai.ChatCompletion.create(model=request.model, messages=request.messages)
         return resp_200(data=completion)
