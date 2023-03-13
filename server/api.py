@@ -11,10 +11,6 @@ class MessageModel(BaseModel):
 class RequestModel(BaseModel):
     model: str
     messages: List[MessageModel]
-    max_tokens: int
-    temperature: float
-    frequency_penalty: float
-    presence_penalty: float
 
 app = FastAPI()
 
@@ -29,7 +25,7 @@ def do_proxy(request: RequestModel, authorization: Optional[str] = Header(None))
     
     try:
         openai.api_key = authorization.replace("Bearer", "").strip()
-        completion = openai.ChatCompletion.create(request)
+        completion = openai.ChatCompletion.create(model=request.model, messages=request.messages)
         return completion
     except Exception as e:
         print(e)
