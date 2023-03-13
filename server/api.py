@@ -9,8 +9,8 @@ class MessageModel(BaseModel):
     content: str
 
 class RequestModel(BaseModel):
-    model: str
-    messages: List[MessageModel]
+    model: str = "gpt-3.5-turbo"
+    messages: List[MessageModel] = []
 
 app = FastAPI()
 
