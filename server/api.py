@@ -9,7 +9,7 @@ class MessageModel(BaseModel):
 
 class RequestModel(BaseModel):
     model: str
-    message: List[MessageModel]
+    messages: List[MessageModel]
     max_tokens: int
     temperature: float
     frequency_penalty: float
