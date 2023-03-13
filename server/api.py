@@ -20,7 +20,7 @@ app = FastAPI()
 
 @app.get("/")
 def do_echo():
-    return {"message": "This is a greet from FastAPI.", "timestamp": datetime.datetime.now()}
+    return {"message": "This is a greet from FastAPI.", "timestamp": datetime.now()}
 
 @app.post("/openai/v1/completions")
 def do_proxy(request: RequestModel, authorization: Optional[str] = Header(None)):
