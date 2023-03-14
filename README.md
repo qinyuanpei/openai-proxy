@@ -1,6 +1,6 @@
 # openai-proxy
 
-一个非常简单的项目，旨在解决国内访问 ChatGPT API 的问题，原理是利用 FastAPI 封装了一个原汁原味的 API 接口，只要这个程序部署在国外的服务器上，你就可以没有任何通过地访问 ChatGPT API。如果你没有独立地服务器，还可以使用 Vercel 这种拥有免费额度的服务，你唯一需要做的事情是在 Vercel 中导入本项目。
+一个非常简单的项目，旨在解决国内访问 ChatGPT API 的问题，原理是利用 FastAPI 封装了一个原汁原味的 API 接口，只要这个程序部署在国外的服务器上，你就可以无痛地访问 ChatGPT API。如果你没有独立地服务器，还可以使用 Vercel 这种拥有免费额度的服务，你唯一需要做的事情是在 Vercel 中导入本项目。
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/qinyuanpei/openai-proxy)
 
