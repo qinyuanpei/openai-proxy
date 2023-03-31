@@ -3,7 +3,7 @@ from typing import Optional
 from datetime import datetime
 import openai
 import logging
-import io
+from io import BytesIO
 
 from utils import resp_200
 
@@ -33,10 +33,9 @@ async def do_proxy_whisper(file: UploadFile, authorization: Optional[str] = Head
     
     try:
         openai.api_key = authorization.replace("Bearer", "").strip()
-        file_bytes = await file.read()
-        file_bytes = io.BytesIO(file_bytes)
-        file_bytes['name'] = file.filename
-        transcript = openai.Audio.transcribe("whisper-1", file_bytes)
+        contents = await file.read()
+        audio = openai.Audio(BytesIO(contents))
+        transcript = openai.Audio.transcribe("whisper-1", audio)
         return resp_200(data=transcript)
     except Exception as e:
         logging.error(e)
