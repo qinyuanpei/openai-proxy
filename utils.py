@@ -5,9 +5,5 @@ from typing import Union
 def resp_200(*, data: Union[list, dict, str]) -> Response:
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-        content={
-            'code': 200,
-            'message': "Success",
-            'data': data,
-        }
+        content=data
     ) 
