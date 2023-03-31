@@ -26,7 +26,7 @@ def do_proxy_chat(request: dict, authorization: Optional[str] = Header(None)):
         raise HTTPException(status_code=500, detail="")
 
 @app.post("/v1/audio/transcriptions")   
-def do_proxy_whisper(file: UploadFile = File(..., max_length=10485760), authorization: Optional[str] = Header(None)):
+def do_proxy_whisper(file: UploadFile = File(...), authorization: Optional[str] = Header(None)):
     if (authorization == None):
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
