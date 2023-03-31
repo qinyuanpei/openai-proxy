@@ -35,6 +35,7 @@ async def do_proxy_whisper(file: UploadFile, authorization: Optional[str] = Head
         openai.api_key = authorization.replace("Bearer", "").strip()
         file_bytes = await file.read()
         file_bytes = io.BytesIO(file_bytes)
+        file_bytes['name'] = file.file.filename
         transcript = openai.Audio.transcribe("whisper-1", file_bytes)
         return resp_200(data=transcript)
     except Exception as e:
