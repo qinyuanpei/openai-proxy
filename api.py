@@ -14,7 +14,7 @@ def do_echo():
     return {"message": "This is a greet from FastAPI.", "timestamp": datetime.now()}
 
 @app.post("/v1/completions")
-def do_proxy_chat(request: dict, authorization: Optional[str] = Header(None)):
+async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(None)):
     if (authorization == None):
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
@@ -27,13 +27,15 @@ def do_proxy_chat(request: dict, authorization: Optional[str] = Header(None)):
         raise HTTPException(status_code=500, detail="")
 
 @app.post("/v1/audio/transcriptions")   
-def do_proxy_whisper(file: UploadFile, authorization: Optional[str] = Header(None)):
+async def do_proxy_whisper(file: UploadFile, authorization: Optional[str] = Header(None)):
     if (authorization == None):
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
     try:
         openai.api_key = authorization.replace("Bearer", "").strip()
-        transcript = openai.Audio.transcribe("whisper-1", file.file)
+        file_bytes = await file.read()
+        file_bytes = io.BytesIO(file_bytes)
+        transcript = openai.Audio.transcribe("whisper-1", file_bytes)
         return resp_200(data=transcript)
     except Exception as e:
         logging.error(e)
