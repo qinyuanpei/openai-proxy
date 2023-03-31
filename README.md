@@ -8,7 +8,7 @@
 像使用官方 API 接口一样：
 
 ```curl
-curl --location --request POST 'https://<Your-Domain.com>/openai/v1/completions' \
+curl --location --request POST 'https://<Your-Domain.com>/v1/completions' \
 -H 'Authorization: Bearer <Your-OpenAI-API-KEY>' \
 -H 'Content-Type: application/json' \
 -d '{
@@ -20,29 +20,25 @@ curl --location --request POST 'https://<Your-Domain.com>/openai/v1/completions'
 接口返回值：
 ```json
 {
-    "code": 200,
-    "message": "Success",
-    "data": {
-        "id": "chatcmpl-6to825KCIKMjbxgI6ZCfmzJnisXMj",
-        "object": "chat.completion",
-        "created": 1678758754,
-        "model": "gpt-3.5-turbo-0301",
-        "usage": {
-            "prompt_tokens": 13,
-            "completion_tokens": 11,
-            "total_tokens": 24
-        },
-        "choices": [
-            {
-                "message": {
-                    "role": "assistant",
-                    "content": "\n\nHello! How can I assist you today?"
-                },
-                "finish_reason": "stop",
-                "index": 0
-            }
-        ]
-    }
+    "id": "chatcmpl-702Bzns9pSGqvLeUVk5tTX3BBmQ1I",
+    "object": "chat.completion",
+    "created": 1680242783,
+    "model": "gpt-3.5-turbo-0301",
+    "usage": {
+        "prompt_tokens": 56,
+        "completion_tokens": 25,
+        "total_tokens": 81
+    },
+    "choices": [
+        {
+            "message": {
+                "role": "assistant",
+                "content": "嗨！你好，有什么我能为你提供帮助的吗？"
+            },
+            "finish_reason": "stop",
+            "index": 0
+        }
+    ]
 }
 ```
 
