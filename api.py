@@ -32,6 +32,7 @@ def do_proxy_whisper(file: UploadFile = File(...), authorization: Optional[str] 
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
     try:
+        openai.api_key = authorization.replace("Bearer", "").strip()
         transcript = openai.Audio.transcribe("whisper-1", file.file)
         return resp_200(data=transcript)
     except Exception as e:
