@@ -3,6 +3,7 @@ from typing import Optional
 from datetime import datetime
 import openai
 import logging
+import io
 
 from utils import resp_200
 
@@ -31,11 +32,9 @@ def do_proxy_whisper(file: UploadFile = File(...), authorization: Optional[str] 
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
     try:
-        with open(f'{file.filename}', "wb") as fw:
-            for i in iter(lambda: file.file.read(1024 * 1024 * 10), b''):
-                fw.write(i)
-            transcript = openai.Audio.transcribe("whisper-1", fw)
-            return resp_200(data=transcript)
+        data = file.file.read()
+        transcript = openai.Audio.transcribe("whisper-1", io.BytesIO(data))
+        return resp_200(data=transcript)
     except Exception as e:
         logging.error(e)
         raise HTTPException(status_code=500, detail="")
