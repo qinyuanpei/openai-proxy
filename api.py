@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Header, HTTPException, File
+from fastapi import FastAPI, Header, HTTPException, File, UploadFile
 from typing import Optional
 from datetime import datetime
 import openai
@@ -26,13 +26,16 @@ def do_proxy_chat(request: dict, authorization: Optional[str] = Header(None)):
         raise HTTPException(status_code=500, detail="")
 
 @app.post("/v1/audio/transcriptions")   
-def do_proxy_whisper(file: bytes = File(..., max_length=10485760), authorization: Optional[str] = Header(None)):
+def do_proxy_whisper(file: UploadFile = File(..., max_length=10485760), authorization: Optional[str] = Header(None)):
     if (authorization == None):
         raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
     
     try:
-        transcript = openai.Audio.transcribe("whisper-1", file)
-        return resp_200(data=transcript)
+        with open(f'{file.filename}', "wb") as fw:
+            for i in iter(lambda: file.file.read(1024 * 1024 * 10), b''):
+                fw.write(i)
+            transcript = openai.Audio.transcribe("whisper-1", fw)
+            return resp_200(data=transcript)
     except Exception as e:
         logging.error(e)
         raise HTTPException(status_code=500, detail="")
