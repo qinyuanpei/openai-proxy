@@ -19,6 +19,7 @@ def do_proxy(request: dict, authorization: Optional[str] = Header(None)):
     
     try:
         openai.api_key = authorization.replace("Bearer", "").strip()
+        logging.info(request['messages'])
         completion = openai.ChatCompletion.create(model=request['model'], messages=request['messages'])
         return resp_200(data=completion)
     except Exception as e:
