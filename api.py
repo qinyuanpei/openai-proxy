@@ -27,7 +27,7 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
         completions = openai.Completion.create(
             # prompt      = request['prompt'],
             model      = request['model'] if request['model'] is None else 'gpt-3.5-turbo',
-            temperature = request['temperature'] if request['temperature'] is None else '0.7',
+            temperature = request['temperature'] if request['temperature'] is None else 0.7,
             max_tokens  = 1024,
             messages = request['messages']
         )
