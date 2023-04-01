@@ -29,7 +29,9 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
             engine      = 'gpt-3.5-turbo' if request['model'] is None else request['model'],
             temperature = 0.7 if request['temperature'] is None else request['temperature'],
             max_tokens  = 1024,
-            prompt = request['prompt']
+            prompt = request['prompt'],
+            messages = request['messages'],
+
         )
 
         completion = completions.choices[0].text
