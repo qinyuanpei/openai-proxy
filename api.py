@@ -24,13 +24,18 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
         # openai.api_key = authorization.replace("Bearer", "").strip()
         # completion = openai.ChatCompletion.create(model=request['model'], messages=request['messages'])
         openai.api_key = os.environ.get("OPENAI_API_KEY")  # 从环境变量中读取API_KEY
+        completions = None
+
         completions = openai.Completion.create(
-            engine      = 'gpt-3.5-turbo' if request['model'] is None else request['model'],
+            # engine      = 'gpt-3.5-turbo' if request['model'] is None else request['model'],
+            model="gpt-3.5-turbo"
             temperature = 0.7 if request['temperature'] is None else request['temperature'],
             max_tokens  = 1024,
             prompt = request['prompt'],
-            # messages = [{"role": "user", "content": request['prompt']}],
-
+            messages = [{"role": "user", "content": request['prompt']}],
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
         )
 
         completion = completions.choices[0].text
