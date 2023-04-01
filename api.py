@@ -25,9 +25,8 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
         # completion = openai.ChatCompletion.create(model=request['model'], messages=request['messages'])
         openai.api_key = os.environ.get("OPENAI_API_KEY")  # 从环境变量中读取API_KEY
 
-        completions = openai.ChatCompletion.create(
+        completions = openai.Completion.create(
             model="gpt-3.5-turbo",
-            messages = [{"role": "user", "content": request['prompt']}],
             temperature = 0.7,
             max_tokens  = 1024,
             top_p=1,
