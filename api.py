@@ -30,7 +30,7 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
             temperature = 0.7 if request['temperature'] is None else request['temperature'],
             max_tokens  = 1024,
             prompt = request['prompt'],
-            messages = request['messages'],
+            messages = [{"role": "user", "content": request['prompt']}],
 
         )
 
