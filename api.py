@@ -23,21 +23,35 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
     try:
         # openai.api_key = authorization.replace("Bearer", "").strip()
         # completion = openai.ChatCompletion.create(model=request['model'], messages=request['messages'])
-        openai.api_key = os.environ.get("OPENAI_API_KEY")  # 从环境变量中读取API_KEY
-        completions = openai.Completion.create(
-            # prompt      = request['prompt'],
-            engine      = 'gpt-3.5-turbo' if request['model'] is None else request['model'],
-            temperature = 0.7 if request['temperature'] is None else request['temperature'],
-            max_tokens  = 1024,
-            prompt = request['prompt']
-        )
+        # completions = openai.Completion.create(
+        #     # prompt      = request['prompt'],
+        #     engine      = 'gpt-3.5-turbo' if request['model'] is None else request['model'],
+        #     temperature = 0.7 if request['temperature'] is None else request['temperature'],
+        #     max_tokens  = 1024,
+        #     prompt = request['prompt']
+        # )
 
-        completion = completions.choices[0].text
+        openai.api_key = os.environ.get("OPENAI_API_KEY")  # 从环境变量中读取API_KEY
+        completion = generate_text(request['prompt'])
 
         return resp_200(data=completion)
     except Exception as e:
         logging.error(e)
         raise HTTPException(status_code=500, detail="")
+    
+def generate_text(prompt, engine='gpt-3.5-turbo', max_tokens=1024, temperature=0.7):
+    completions = openai.Completion.create(
+        prompt = prompt,
+        engine = engine,
+        max_tokens = max_tokens,
+        temperature = temperature,
+        n = 1,
+        stop = None,
+    )
+
+    message = completions.choices[0].text
+    return message
+
 
 # @app.post("/v1/audio/transcriptions")   
 # async def do_proxy_whisper(file: UploadFile, authorization: Optional[str] = Header(None)):
