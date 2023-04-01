@@ -3,7 +3,7 @@ import openai
 def openai_reply(content, apikey):
     openai.api_key = apikey
     response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo-0301",#gpt-3.5-turbo-0301
+    model="gpt-3.5-turbo",#gpt-3.5-turbo-0301
     messages=[
     {"role": "user", "content": content}
     ],
