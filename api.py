@@ -15,7 +15,7 @@ app = FastAPI()
 def do_echo():
     return {"message": "This is a greet from FastAPI.", "timestamp": datetime.now()}
 
-@app.post("/v1/completions")
+@app.post("/v1/chat/completions")
 async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(None)):
     # if (authorization == None):
     #     raise HTTPException(status_code=401, detail="OPENAI_API_KEY is required.")
@@ -25,10 +25,11 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
         # completion = openai.ChatCompletion.create(model=request['model'], messages=request['messages'])
         openai.api_key = os.environ.get("OPENAI_API_KEY")  # 从环境变量中读取API_KEY
         completions = openai.Completion.create(
-            engine      = request['model'],
-            prompt      = request['prompt'],
-            max_tokens  = 1024 if request['max_tokens'] is not None else request['max_tokens'] ,
-            temperature = 0.7 if request['temperature'] is not None else request['temperature']
+            # prompt      = request['prompt'],
+            model      = request['model'] if request['model'] is None else 'gpt-3.5-turbo',
+            temperature = request['temperature'] if request['temperature'] is None else '0.7',
+            max_tokens  = 1024,
+            messages = request['messages']
         )
 
         completion = completions.choices[0].text
