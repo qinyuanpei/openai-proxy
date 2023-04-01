@@ -3,6 +3,7 @@ from typing import Optional
 from datetime import datetime
 import openai
 import logging
+import os
 from io import BytesIO
 
 from utils import resp_200
@@ -23,9 +24,6 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
     try:
         # openai.api_key = authorization.replace("Bearer", "").strip()
         # completion = openai.ChatCompletion.create(model=request['model'], messages=request['messages'])
-        """
-        调用OpenAI生成文本
-        """
         completions = openai.Completion.create(
             engine      = request['model'],
             prompt      = request['prompt'],
