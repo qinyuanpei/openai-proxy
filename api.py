@@ -26,8 +26,8 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
         openai.api_key = os.environ.get("OPENAI_API_KEY")  # 从环境变量中读取API_KEY
         completions = openai.Completion.create(
             # prompt      = request['prompt'],
-            engine      = request['model'] if request['model'] is None else 'gpt-3.5-turbo',
-            temperature = request['temperature'] if request['temperature'] is None else 0.7,
+            engine      = 'gpt-3.5-turbo' if request['model'] is None else request['model'],
+            temperature = 0.7 if request['temperature'] is None else request['temperature'],
             max_tokens  = 1024,
             prompt = request['prompt']
         )

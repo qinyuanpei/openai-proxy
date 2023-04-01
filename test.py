@@ -3,5 +3,6 @@ curl --location --request POST 'http://100.26.242.75:8000/v1/chat/completions' \
 -d '{
 "model": "gpt-3.5-turbo",
 "temperature": 0.7,
+"prompt": "什么是人工智能",
 "messages": [{"role": "user", "prompt":"什么是人工智能"}]
 }'
