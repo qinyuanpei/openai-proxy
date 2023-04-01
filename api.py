@@ -30,7 +30,10 @@ async def do_proxy_chat(request: dict, authorization: Optional[str] = Header(Non
             max_tokens  = 1024 if request['max_tokens'] else request['max_tokens'] ,
             temperature = 0.7 if request['temperature'] else request['temperature']
         )
-        return resp_200(data=completions)
+
+        completion = completions.choices[0].text
+
+        return resp_200(data=completion)
     except Exception as e:
         logging.error(e)
         raise HTTPException(status_code=500, detail="")
